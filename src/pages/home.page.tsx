@@ -1,5 +1,7 @@
 import Header from "@/components/header";
 import Heading from "@/components/heading";
+import PricingSwitch from "@/components/pricing-switch";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -13,20 +15,45 @@ import {
   Megaphone,
   MousePointerClick,
   PlayCircle,
-  Plus,
   Presentation,
   Search,
   User,
 } from "lucide-react";
+import { useState } from "react";
 
 export default function HomePage() {
   const assets = useAssets();
+  const [pricingTab, setPricingTab] = useState<"A" | "B">("A");
 
   return (
     <>
       <Header />
       <main>
         <section id="home" className="min-h-screen container flex flex-col items-center justify-center gap-5 text-center md:px-44 bg-dots bg-no-repeat bg-cover bg-top py-20">
+          <img
+            src={assets.getImage("i-1")}
+            data-aos="zoom-in"
+            className="hidden md:block absolute left-[-1.5rem] lg:left-12 top-80"
+            alt=""
+          />
+          <img
+            src={assets.getImage("i-2")}
+            data-aos="zoom-in"
+            className="hidden md:block absolute right-[-1.5rem] lg:right-12 top-96"
+            alt=""
+          />
+          <img
+            src={assets.getImage("i-3")}
+            data-aos="zoom-in"
+            className="hidden md:block absolute left-[-1.5rem] lg:left-28 top-[32rem]"
+            alt=""
+          />
+          <img
+            src={assets.getImage("i-4")}
+            data-aos="zoom-in"
+            className="hidden md:block absolute right-[-1.5rem] lg:right-28 top-[40rem]"
+            alt=""
+          />
           <h1 data-aos="fade-up" className="text-2xl md:text-3xl font-semibold">
             Optimalkan Strategi Influencer Marketing: Dapatkan List KOL yang Tepat dan Ide Kampanye Inovatif, Semua Dalam Satu Platform Berbasis AI
           </h1>
@@ -81,12 +108,19 @@ export default function HomePage() {
           </div>
         </section>
         <section id="testimoni" className="container lg:px-44 pb-20">
-          <div data-aos="zoom-in" className="border border-black rounded-3xl bg-primary text-white px-6 py-12 flex flex-col items-center shadow-solid">
-            <Heading
-              title="Testimoni"
-              subtitle="Review dari Klien Kami"
-              titleCn="text-white"
-            />
+          <div data-aos="zoom-in" className="border border-black rounded-3xl bg-primary text-white px-6 md:px-12 py-12 flex flex-col items-center shadow-solid">
+            <div className="flex items-center justify-center md:justify-between w-full">
+              <Heading
+                title="Testimoni"
+                subtitle="Review dari Klien Kami"
+                titleCn="text-white"
+              />
+              <img
+                src={assets.getImage("i-4")}
+                className="hidden md:block"
+                alt=""
+              />
+            </div>
             <div className="text-center flex flex-col items-center gap-4">
               <p className="font-bold text-xl lg:px-24">
                 I had an instant connection with Dani, and loved talking to her! We talked about Worklife balance.
@@ -199,6 +233,12 @@ export default function HomePage() {
         </section>
         <section id="get-kol" className="bg-secondary">
           <div data-aos="fade-up" className="container lg:px-80 py-20 text-center space-y-6">
+            <img
+              src={assets.getImage("i-6")}
+              data-aos="fade-right"
+              className="hidden md:block absolute -z-10 -mt-12 lg:-ml-20"
+              alt=""
+            />
             <h1 className="text-3xl md:text-4xl font-bold">
               Pilih KOL & Bikin Kampanye Keren Sekarang!
             </h1>
@@ -220,12 +260,16 @@ export default function HomePage() {
           <div className="container py-20 lg:px-44 flex flex-col lg:flex-row lg:justify-between lg:items-center gap-12">
             <div data-aos="fade-right" className="font-bold text-4xl">
               Rp 199.000/
-              <span className="text-base">bulan</span>
+              <span className="text-base">
+                {pricingTab === "A" ? "bulan" : "tahun"}
+              </span>
             </div>
-            <div data-aos="fade-left" className="space-y-4 lg:w-1/2">
-              <div>
-                bulanan/tahunan
-              </div>
+            <div data-aos="fade-left" className="space-y-6 lg:w-1/2">
+              <PricingSwitch
+                labelA="Bulanan"
+                labelB="Tahunan"
+                value={setPricingTab}
+              />
               <h1 className="text-2xl font-bold">Pricing plan</h1>
               <p>
                 Akses Tak Terbatas di Database Influencer Tiktok Generate 8 Kampanye Influencer dengan Berbagai Objective per bulan
@@ -234,59 +278,65 @@ export default function HomePage() {
           </div>
         </section>
         <section id="faq" className="container py-20 lg:px-72 flex flex-col items-center">
+          <img
+            src={assets.getImage("i-7")}
+            data-aos="fade-left"
+            className="hidden md:block absolute right-0 -mt-[8.75rem]"
+            alt=""
+          />
           <h1 data-aos="zoom-in" className="text-2xl font-bold mb-5">
             FAQ
           </h1>
-          <div className="w-full space-y-3">
-            <div
+          <Accordion type="single" collapsible>
+            <AccordionItem
               data-aos="fade-up"
               data-aos-delay="100"
-              className="flex items-center justify-between"
+              value="item-1"
             >
-              <p className="text-lg">
+              <AccordionTrigger className="text-start">
                 Apa itu ListKOL.com?
-              </p>
-              <div>
-                <Plus className="h-5 w-5" />
-              </div>
-            </div>
-            <div
+              </AccordionTrigger>
+              <AccordionContent>
+                abc
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem
               data-aos="fade-up"
               data-aos-delay="200"
-              className="flex items-center justify-between"
+              value="item-2"
             >
-              <p className="text-lg">
+              <AccordionTrigger className="text-start">
                 Apa manfaat bergabung dengan ListKOL.com?
-              </p>
-              <div>
-                <Plus className="h-5 w-5" />
-              </div>
-            </div>
-            <div
+              </AccordionTrigger>
+              <AccordionContent>
+                abc
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem
               data-aos="fade-up"
               data-aos-delay="300"
-              className="flex items-center justify-between"
+              value="item-3"
             >
-              <p className="text-lg">
+              <AccordionTrigger className="text-start">
                 Berapa biaya berlangganan ListKOL.com?
-              </p>
-              <div>
-                <Plus className="h-5 w-5" />
-              </div>
-            </div>
-            <div
+              </AccordionTrigger>
+              <AccordionContent>
+                abc
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem
               data-aos="fade-up"
               data-aos-delay="400"
-              className="flex items-center justify-between"
+              value="item-4"
             >
-              <p className="text-lg">
+              <AccordionTrigger className="text-start">
                 Apakah ada batasan jumlah kampanye yang bisa saya buat setiap bulan?
-              </p>
-              <div>
-                <Plus className="h-5 w-5" />
-              </div>
-            </div>
-          </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                abc
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </section>
       </main>
       <footer className="bg-dark text-white">
