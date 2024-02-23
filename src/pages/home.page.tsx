@@ -256,7 +256,7 @@ export default function HomePage() {
             Kami adalah platform inovatif yang menyediakan solusi terbaik untuk strategi pemasaran influencer Anda. Menemukan influencer yang sesuai dengan brand Anda tidak pernah semudah ini. Dengan teknologi AI, kami menyediakan akses langsung ke database influencer dan ide-ide kampanye yang kreatif serta inovatif. Misi kami adalah menyederhanakan pencarian, meningkatkan efisiensi, dan menghasilkan hasil optimal untuk setiap kampanye Anda. Bergabunglah dengan kami sekarang dan jadilah bagian dari revolusi pemasaran influencer yang cerdas dan efektif!
           </p>
         </section>
-        <section id="pricing" className="bg-primary text-white">
+        <section id="pricing" className="bg-primary text-white overflow-x-hidden">
           <div className="container py-20 lg:px-44 flex flex-col lg:flex-row lg:justify-between lg:items-center gap-12">
             <div data-aos="fade-right" className="font-bold text-4xl">
               Rp 199.000/
