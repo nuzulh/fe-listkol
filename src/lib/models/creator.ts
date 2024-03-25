@@ -20,6 +20,7 @@ export type Creator = {
   likeCount: string | null
   videoCount: string | null
   viewCount: string | null
+  ttSeller: boolean | null
 }
 
 export type Country = {

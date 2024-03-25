@@ -52,7 +52,7 @@ export default function Navbar() {
             </nav>
             <SheetFooter className="mt-12">
               <Button variant="shadow" size="sm" asChild>
-                <Link to="/login">
+                <Link to="/auth">
                   <LogIn className="h-4 w-4 mr-2" /> Login
                 </Link>
               </Button>
@@ -86,7 +86,7 @@ export default function Navbar() {
         className="hidden md:inline-flex"
         asChild
       >
-        <Link to="/login">
+        <Link to="/auth">
           <LogIn className="h-4 w-4 mr-2" /> Login
         </Link>
       </Button>

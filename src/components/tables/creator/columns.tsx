@@ -1,9 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import VerifiedTtIcon from '@/components/verified-tt-icon'
 import { Creator } from '@/lib/models'
 import { countParser } from '@/lib/utils'
 import { ColumnDef } from "@tanstack/react-table"
-import { BadgeCheck, CheckCircle, ExternalLink, Eye, EyeOff, User, XCircle } from 'lucide-react'
+import { CheckCircle, ExternalLink, User, XCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export const columns: ColumnDef<Creator>[] = [
@@ -26,7 +27,7 @@ export const columns: ColumnDef<Creator>[] = [
       <Button size='sm' variant='link' className='text-black' asChild>
         <Link to={`https://tiktok.com/@${original.uniqueId}`} target='_blank'>
           <span className='mr-2'>{`@${original.uniqueId}`}</span>
-          {original.verified && <BadgeCheck color='blue' className='h-4 w-4' />}
+          {original.verified && <VerifiedTtIcon />}
         </Link>
       </Button>
     )
@@ -37,9 +38,33 @@ export const columns: ColumnDef<Creator>[] = [
     cell: ({ row }) => row.original.nickName || 'N/A'
   },
   {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => row.original.email || 'N/A'
+  },
+  {
+    accessorKey: "instagram",
+    header: "Instagram",
+    cell: ({ row }) => row.original.instagram || 'N/A'
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => row.original.phone || 'N/A'
+  },
+  {
     accessorKey: "country",
     header: "Country",
     cell: ({ row }) => row.original.country?.value || 'N/A'
+  },
+  {
+    accessorKey: "ttSeller",
+    header: "Tiktok Seller",
+    cell: ({ row }) => row.original.ttSeller === null
+      ? 'N/A'
+      : row.original.ttSeller
+        ? <CheckCircle className='h-4 w-4' color='green' />
+        : <XCircle className='h-4 w-4' color='red' />
   },
   {
     accessorKey: 'followerCount',
@@ -62,24 +87,6 @@ export const columns: ColumnDef<Creator>[] = [
     cell: ({ row }) => row.original.videoCount || 'N/A'
   },
   {
-    accessorKey: "private",
-    header: "Is Private?",
-    cell: ({ row }) => row.original.verified === null
-      ? 'N/A'
-      : row.original.private
-        ? <CheckCircle color='green' />
-        : <XCircle color='red' />
-  },
-  {
-    accessorKey: "visibility",
-    header: "Is Visible?",
-    cell: ({ row }) => row.original.visibility === null
-      ? 'N/A'
-      : row.original.visibility
-        ? <Eye color='green' />
-        : <EyeOff color='red' />
-  },
-  {
     accessorKey: "description",
     header: "Bio",
     cell: ({ row }) => row.original.description || 'N/A'
@@ -94,7 +101,7 @@ export const columns: ColumnDef<Creator>[] = [
 
       return (
         <Button size='icon' variant='outline' asChild>
-          <Link to={bioLink} target='_blank'>
+          <Link to={bioLink.startsWith('http') ? bioLink : `https://${bioLink}`} target='_blank'>
             <ExternalLink className='h-4 w-4' />
           </Link>
         </Button>

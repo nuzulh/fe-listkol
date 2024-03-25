@@ -24,7 +24,7 @@ export default function RegisterPage() {
               Already have an account?
             </span>
             <Button size='sm' variant='link' asChild>
-              <Link to='/login'>
+              <Link to='/auth'>
                 Login
               </Link>
             </Button>

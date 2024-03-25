@@ -8,12 +8,10 @@ export const useGetCreators = (params: FilterParams) => {
   const queryParams = new URLSearchParams()
 
   Object.keys(params).forEach(key => {
-    queryParams.append(
-      key,
-      (key === 'pagination' || key === 'followers')
-        ? JSON.stringify(params[key])
-        : params[key as keyof FilterParams] as string
-    )
+    if (typeof params[key as keyof FilterParams] === 'object')
+      queryParams.append(key, JSON.stringify(params[key as keyof FilterParams]))
+    else
+      queryParams.append(key, params[key as keyof FilterParams] as string)
   })
 
   const client = new API({ applyAuth: true })

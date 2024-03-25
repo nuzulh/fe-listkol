@@ -38,7 +38,7 @@ export default function RegisterForm() {
       isError ? 'Account has been created successfully. Please log in.' : result.error?.message
     )
 
-    if (!result.error) navigate('/login', { replace: true })
+    if (!result.error) navigate('/auth', { replace: true })
   }
 
   return (

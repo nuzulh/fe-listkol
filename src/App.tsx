@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { LoadingPage } from "@/components/loading";
 import Aos from "aos";
 import "aos/dist/aos.css";
@@ -25,10 +25,13 @@ export default function App() {
         <Routes>
           <Route path="/">
             <Route index element={<HomePage />} />
+          </Route>
+          <Route path='/auth' element={<GuardLayout urlPrefix='auth' />}>
+            <Route index element={<Navigate to='login' />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
           </Route>
-          <Route path="/app" element={<GuardLayout />}>
+          <Route path="/app" element={<GuardLayout urlPrefix='app' />}>
             <Route index element={<DashboardPage />} />
           </Route>
           <Route path="*" element={<div>not found</div>} />

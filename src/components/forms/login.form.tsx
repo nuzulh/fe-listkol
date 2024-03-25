@@ -7,8 +7,8 @@ import { Button } from '../ui/button'
 import { Spinner } from '../loading'
 import { LogIn } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { postLogin } from '@/services/auth/login.service'
 import { toast } from 'sonner'
+import { postLogin } from '@/services/auth/login.service'
 
 const loginSchema = z.object({
   email: z.string().email(),
