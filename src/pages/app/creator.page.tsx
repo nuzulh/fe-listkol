@@ -115,7 +115,7 @@ export default function CreatorPage() {
               variant="outline"
               size="sm"
               onClick={() => paginatePage('next')}
-              disabled={Number(filter.pagination?.page) > Number(pagination?.totalPage) || isFetching}
+              disabled={Number(filter.pagination?.page) >= Number(pagination?.totalPage) || isFetching}
             >
               Next
             </Button>
