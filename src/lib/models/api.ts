@@ -17,6 +17,10 @@ export type ErrorResponse = {
 export type FilterParams = {
   industry?: string
   country?: string
+  address?: string
+  category?: string
+  engagementRate?: string
+  language?: string
   followers?: { from: number; to: number }
   pagination?: { page: number; perPage: number }
 }

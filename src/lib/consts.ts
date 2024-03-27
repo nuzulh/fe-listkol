@@ -1,4 +1,5 @@
-import { MenuItem } from "@/typings";
+import { MenuItem, SidebarMenuItem } from "@/typings";
+import { Command, LayoutDashboard, UserSearch } from 'lucide-react';
 
 export const baseUrl = "https://be-listkol.up.railway.app/api";
 
@@ -24,3 +25,21 @@ export const menus: MenuItem[] = [
     link: "/#faq",
   },
 ];
+
+export const sidebarMenus: SidebarMenuItem[] = [
+  {
+    title: 'Dashboard',
+    link: '/app',
+    icon: LayoutDashboard
+  },
+  {
+    title: 'Creator',
+    link: '/app/creator',
+    icon: UserSearch
+  },
+  {
+    title: 'Campaign',
+    link: '/app/campaign',
+    icon: Command
+  }
+]

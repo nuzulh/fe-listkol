@@ -2,13 +2,15 @@ import { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { LoadingPage } from "@/components/loading";
 import Aos from "aos";
-import "aos/dist/aos.css";
 import GuardLayout from './components/layouts/guard-layout';
+import DashboardPage from '@/pages/app/dashboard.page';
+import CreatorPage from '@/pages/app/creator.page';
+import CampaignPage from '@/pages/app/campaign.page';
+import "aos/dist/aos.css";
 
 const HomePage = lazy(() => import("@/pages/home.page"));
 const LoginPage = lazy(() => import("@/pages/login.page"));
 const RegisterPage = lazy(() => import("@/pages/register.page"));
-const DashboardPage = lazy(() => import("@/pages/app/dashboard.page"));
 
 export default function App() {
   useEffect(() => {
@@ -26,13 +28,15 @@ export default function App() {
           <Route path="/">
             <Route index element={<HomePage />} />
           </Route>
-          <Route path='/auth' element={<GuardLayout urlPrefix='auth' />}>
+          <Route path='/auth' element={<GuardLayout />}>
             <Route index element={<Navigate to='login' />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
           </Route>
-          <Route path="/app" element={<GuardLayout urlPrefix='app' />}>
+          <Route path="/app" element={<GuardLayout />}>
             <Route index element={<DashboardPage />} />
+            <Route path='creator' element={<CreatorPage />} />
+            <Route path='campaign' element={<CampaignPage />} />
           </Route>
           <Route path="*" element={<div>not found</div>} />
         </Routes>

@@ -1,10 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import VerifiedTtIcon from '@/components/verified-tt-icon'
 import { Creator } from '@/lib/models'
 import { countParser } from '@/lib/utils'
 import { ColumnDef } from "@tanstack/react-table"
-import { CheckCircle, ExternalLink, User, XCircle } from 'lucide-react'
+import { ExternalLink, User } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export const columns: ColumnDef<Creator>[] = [
@@ -34,23 +35,8 @@ export const columns: ColumnDef<Creator>[] = [
   },
   {
     accessorKey: "nickName",
-    header: "Nickname",
+    header: "Name",
     cell: ({ row }) => row.original.nickName || 'N/A'
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => row.original.email || 'N/A'
-  },
-  {
-    accessorKey: "instagram",
-    header: "Instagram",
-    cell: ({ row }) => row.original.instagram || 'N/A'
-  },
-  {
-    accessorKey: "phone",
-    header: "Phone",
-    cell: ({ row }) => row.original.phone || 'N/A'
   },
   {
     accessorKey: "country",
@@ -58,42 +44,8 @@ export const columns: ColumnDef<Creator>[] = [
     cell: ({ row }) => row.original.country?.value || 'N/A'
   },
   {
-    accessorKey: "ttSeller",
-    header: "Tiktok Seller",
-    cell: ({ row }) => row.original.ttSeller === null
-      ? 'N/A'
-      : row.original.ttSeller
-        ? <CheckCircle className='h-4 w-4' color='green' />
-        : <XCircle className='h-4 w-4' color='red' />
-  },
-  {
-    accessorKey: 'followerCount',
-    header: "Followers",
-    cell: ({ row }) => countParser(Number(row.original.followerCount)),
-  },
-  {
-    accessorKey: 'videoCount',
-    header: "Videos",
-    cell: ({ row }) => row.original.videoCount || 'N/A'
-  },
-  {
-    accessorKey: 'likeCount',
-    header: "Likes",
-    cell: ({ row }) => countParser(Number(row.original.likeCount)),
-  },
-  {
-    accessorKey: 'viewCount',
-    header: "Views",
-    cell: ({ row }) => row.original.videoCount || 'N/A'
-  },
-  {
-    accessorKey: "description",
-    header: "Bio",
-    cell: ({ row }) => row.original.description || 'N/A'
-  },
-  {
     accessorKey: 'bioLink',
-    header: 'Bio Link',
+    header: 'Link',
     cell: ({ row }) => {
       const bioLink = row.original.bioLink
 
@@ -107,5 +59,38 @@ export const columns: ColumnDef<Creator>[] = [
         </Button>
       )
     }
+  },
+  {
+    accessorKey: 'followerCount',
+    header: "Followers",
+    cell: ({ row }) => countParser(Number(row.original.followerCount)),
+  },
+  {
+    accessorKey: 'videoCount',
+    header: "Total Videos",
+    cell: ({ row }) => row.original.videoCount || 'N/A'
+  },
+  {
+    accessorKey: 'engagementRate',
+    header: 'Engagement Rate',
+    cell: ({ row }) => `${row.original.engagementRate}%` || 'N/A'
+  },
+  {
+    accessorKey: 'potentialCategories',
+    header: 'Potential Categories',
+    cell: ({ row }) => row.original.potentialCategories === null
+      ? 'N/A'
+      : row.original.potentialCategories.slice(0, 3).map(x => (
+        <Badge key={x} className='m-1' variant='secondary'>{x}</Badge>
+      ))
+  },
+  {
+    accessorKey: 'textExtras',
+    header: 'Hashtag',
+    cell: ({ row }) => row.original.textExtras === null
+      ? 'N/A'
+      : row.original.textExtras.slice(0, 3).filter(x => !!x).map(x => (
+        <Badge key={x} className='m-1' variant='secondary'>#{x}</Badge>
+      ))
   }
 ]

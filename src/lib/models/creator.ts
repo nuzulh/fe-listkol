@@ -21,6 +21,12 @@ export type Creator = {
   videoCount: string | null
   viewCount: string | null
   ttSeller: boolean | null
+  shareCount: string | null
+  collectCount: string | null
+  commentCount: string | null
+  engagementRate: number | null
+  potentialCategories: string[] | null
+  textExtras: string[] | null
 }
 
 export type Country = {
@@ -41,7 +47,11 @@ export type FilterData = {
 }
 
 export type CreatorFilter = {
+  address: FilterData[]
+  category: FilterData[]
   country: FilterData[]
+  engagementRate: FilterData[]
+  follower: FilterData[]
   industry: FilterData[]
-  followersCount: FilterData[]
+  language: FilterData[]
 }

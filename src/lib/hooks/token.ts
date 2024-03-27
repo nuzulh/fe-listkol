@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode'
 
-type UserToken = {
+export type UserToken = {
   id: string
   email: string
   name: string

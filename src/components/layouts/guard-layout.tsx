@@ -1,30 +1,36 @@
 import { useEffect, useState } from 'react'
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { LoadingPage } from '../loading'
 import { useToken } from '@/lib/hooks/token'
+import Sidebar from '../sidebar'
 
 type GuardState = 'loading' | 'loggedIn' | 'loggedOut'
 
-export default function GuardLayout({
-  urlPrefix
-}: {
-  urlPrefix: 'auth' | 'app'
-}) {
+export default function GuardLayout() {
   const [guardState, setGuardState] = useState<GuardState>('loading')
-  const decodedToken = useToken()
+  const { pathname } = useLocation()
+  const userToken = useToken()
+  const urlPrefix = pathname.split('/')[1]
 
   useEffect(() => {
-    if (!decodedToken) {
+    if (!userToken) {
       setGuardState('loggedOut')
       return
     }
 
     setGuardState('loggedIn')
-  }, [decodedToken])
+  }, [userToken])
 
   switch (guardState) {
     case 'loading': return <LoadingPage />
     case 'loggedOut': return urlPrefix === 'app' ? <Navigate to='/auth' /> : <Outlet />
-    case 'loggedIn': return urlPrefix === 'auth' ? <Navigate to='/app' /> : <Outlet />
+    case 'loggedIn': return urlPrefix === 'auth' ? <Navigate to='/app' /> : (
+      <main className='min-h-screen w-full flex items-start gap-4 py-4'>
+        <Sidebar userToken={userToken} />
+        <div className='flex flex-col items-start justify-start gap-4 w-full pl-[18rem] pr-4'>
+          <Outlet />
+        </div>
+      </main>
+    )
   }
 }
