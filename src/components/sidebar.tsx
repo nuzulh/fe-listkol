@@ -18,7 +18,7 @@ export default function Sidebar({
   }
 
   return (
-    <aside className='fixed w-full max-w-[17rem]'>
+    <aside className='fixed w-full max-w-[17rem] h-2/3'>
       <Card className='rounded-r-2xl rounded-l-none shadow-lg'>
         <CardHeader>
           <CardTitle>ListKOL</CardTitle>

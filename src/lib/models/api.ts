@@ -21,6 +21,7 @@ export type FilterParams = {
   category?: string
   engagementRate?: string
   language?: string
-  followers?: { from: number; to: number }
+  contactBy?: string
+  followers?: { from?: number; to?: number }
   pagination?: { page: number; perPage: number }
 }

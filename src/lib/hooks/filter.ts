@@ -70,6 +70,17 @@ export function useFilterCreator() {
     []
   )
 
+  const onFilterContact = useCallback(
+    (contactBy: string | undefined) => setFilter(prev => {
+      if (!contactBy) {
+        delete prev.contactBy
+        return { ...prev }
+      }
+      return { ...prev, contactBy }
+    }),
+    []
+  )
+
   const onFilterPageRows = useCallback(
     (perPage: number) => setFilter(prev => ({
       ...prev,
@@ -92,6 +103,17 @@ export function useFilterCreator() {
     []
   )
 
+  const onFilterFollowers = useCallback(
+    (data: { from?: number, to?: number }) => setFilter(prev => ({
+      ...prev,
+      followers: {
+        from: data.from || 100,
+        to: data.to || 1000000000
+      }
+    })),
+    []
+  )
+
   return {
     filter,
     onFilterAddress,
@@ -100,7 +122,9 @@ export function useFilterCreator() {
     onFilterLanguage,
     onFilterCountry,
     onFilterIndustry,
+    onFilterContact,
     onFilterPageRows,
+    onFilterFollowers,
     paginatePage
   }
 }

@@ -39,6 +39,11 @@ export const columns: ColumnDef<Creator>[] = [
     cell: ({ row }) => row.original.nickName || 'N/A'
   },
   {
+    accessorKey: 'email',
+    header: 'Email',
+    cell: ({ row }) => row.original.email || 'N/A'
+  },
+  {
     accessorKey: "country",
     header: "Country",
     cell: ({ row }) => row.original.country?.value || 'N/A'

@@ -13,4 +13,5 @@ export function countParser(n: number | null) {
   if (n > 1000000 && n < 10000000) return '>1M'
   if (n > 10000000 && n < 100000000) return '>10M'
   if (n > 100000000) return '>100M'
+  return n
 }

@@ -54,4 +54,5 @@ export type CreatorFilter = {
   follower: FilterData[]
   industry: FilterData[]
   language: FilterData[]
+  contactBy: FilterData[]
 }

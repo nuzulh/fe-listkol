@@ -1,5 +1,6 @@
 import { MenuItem, SidebarMenuItem } from "@/typings";
 import { Command, LayoutDashboard, UserSearch } from 'lucide-react';
+import { FilterData } from './models';
 
 export const baseUrl = "https://be-listkol.up.railway.app/api";
 
@@ -42,4 +43,23 @@ export const sidebarMenus: SidebarMenuItem[] = [
     link: '/app/campaign',
     icon: Command
   }
+]
+
+export const pageRows: FilterData[] = [
+  {
+    id: "5",
+    value: "5",
+  },
+  {
+    id: "10",
+    value: "10",
+  },
+  {
+    id: "20",
+    value: "20",
+  },
+  {
+    id: "25",
+    value: "25",
+  },
 ]

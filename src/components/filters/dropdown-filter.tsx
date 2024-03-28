@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronsUpDown, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -17,16 +17,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { FilterData } from '@/lib/models'
+import { Spinner } from '../loading'
 
-export function CreatorFilter({
+export function DropdownFilter({
   label,
+  hideLabel,
   data,
   isLoading,
+  width = 200,
   onSelect
 }: {
   label: string
+  hideLabel?: boolean
   data: FilterData[]
   isLoading: boolean
+  width?: number
   onSelect: (selected?: FilterData) => void
 }) {
   const [open, setOpen] = React.useState(false)
@@ -40,24 +45,40 @@ export function CreatorFilter({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <div className='flex flex-col'>
-        <span className='text-sm font-semibold mb-1'>{label}:</span>
-        <PopoverTrigger asChild>
+        {!hideLabel && (
+          <span className='text-sm font-semibold mb-1'>{label}:</span>
+        )}
+        <div className='flex items-center'>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className={`w-[${width}px] justify-between truncate overflow-ellipsis`}
+            >
+              {isLoading
+                ? <Spinner className='h-4 2-4 text-muted-foreground' />
+                : selected
+                  ? data.find((item) => item.value === selected.value)?.value
+                  : (
+                    <p className='text-muted-foreground font-normal'>
+                      {!hideLabel ? `Select ${label}...` : label}
+                    </p>
+                  )}
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
           <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-[200px] justify-between truncate overflow-ellipsis"
+            size='icon'
+            variant='outline'
+            className='-ml-1'
+            onClick={() => setSelected(undefined)}
           >
-            {isLoading
-              ? "Loading..."
-              : selected
-                ? data.find((item) => item.value === selected.value)?.value
-                : `Select ${label}...`}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <X className='h-4 w-4' />
           </Button>
-        </PopoverTrigger>
+        </div>
       </div>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className={`w-[200px] p-0`}>
         <Command>
           <CommandInput placeholder={`Search ${label}...`} />
           <CommandEmpty>No {label} found.</CommandEmpty>
@@ -83,6 +104,7 @@ export function CreatorFilter({
               ))}
             </CommandGroup>
           </CommandList>
+
         </Command>
       </PopoverContent>
     </Popover>

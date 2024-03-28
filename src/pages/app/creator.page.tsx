@@ -1,10 +1,12 @@
-import { CreatorFilter } from '@/components/filters/creator-filter'
-import { PageRowFilter } from '@/components/filters/page-rows'
+import { DropdownFilter } from '@/components/filters/dropdown-filter'
+import { TextFilter } from '@/components/filters/text-filter'
 import { Spinner } from '@/components/loading'
 import { columns } from '@/components/tables/creator/columns'
 import { DataTable } from '@/components/tables/data-table'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { pageRows } from '@/lib/consts'
 import { useFilterCreator } from '@/lib/hooks'
 import { getCreatorsKeys, useGetCreatorFilter, useGetCreators } from '@/services/creator/get-creator.service'
 import { useQueryClient } from '@tanstack/react-query'
@@ -14,13 +16,14 @@ export default function CreatorPage() {
   const queryClient = useQueryClient()
   const {
     filter,
-    onFilterAddress,
     onFilterCategory,
     onFilterEngagement,
     onFilterLanguage,
     onFilterCountry,
     onFilterIndustry,
+    onFilterContact,
     onFilterPageRows,
+    onFilterFollowers,
     paginatePage
   } = useFilterCreator()
   const { data: creatorsResponse, isLoading: creatorsLoading, isFetching } = useGetCreators(filter)
@@ -28,10 +31,11 @@ export default function CreatorPage() {
 
   const countries = filterResponse?.data.country || []
   const industries = filterResponse?.data.industry || []
-  const addresses = filterResponse?.data.address || []
   const categories = filterResponse?.data.category || []
   const engagements = filterResponse?.data.engagementRate || []
   const languages = filterResponse?.data.language || []
+  const contancts = filterResponse?.data.contactBy || []
+  const followers = filterResponse?.data.follower || []
   const pagination = creatorsResponse?.pagination
 
   useEffect(() => {
@@ -46,44 +50,88 @@ export default function CreatorPage() {
             <span>Creator Filter</span>
           </CardTitle>
         </CardHeader>
-        <CardContent className='flex flex-wrap gap-3 mb-4'>
-          <CreatorFilter
-            label='Address'
-            data={addresses}
-            isLoading={filterLoading}
-            onSelect={value => onFilterAddress(value?.id)}
-          />
-          <CreatorFilter
-            label='Country'
-            data={countries}
-            isLoading={filterLoading}
-            onSelect={value => onFilterCountry(value?.id)}
-          />
-          <CreatorFilter
-            label='Industry'
-            data={industries}
-            isLoading={filterLoading}
-            onSelect={value => onFilterIndustry(value?.id)}
-          />
-          <CreatorFilter
-            label='Category'
-            data={categories}
-            isLoading={filterLoading}
-            onSelect={value => onFilterCategory(value?.id)}
-          />
-          <CreatorFilter
-            label='Engagement'
-            data={engagements}
-            isLoading={filterLoading}
-            onSelect={value => onFilterEngagement(value?.id)}
-          />
-          <CreatorFilter
-            label='Language'
-            data={languages}
-            isLoading={filterLoading}
-            onSelect={value => onFilterLanguage(value?.id)}
-          />
-          <PageRowFilter selected={value => onFilterPageRows(Number(value))} />
+        <CardContent className='space-y-3'>
+          <div className='flex flex-wrap gap-3'>
+            <div>
+              <Label>Followers</Label>
+              <div className='flex gap-3'>
+                <DropdownFilter
+                  width={100}
+                  label='From'
+                  hideLabel
+                  data={followers}
+                  isLoading={filterLoading}
+                  onSelect={value => onFilterFollowers({ from: value?.id ? Number(value.id) : undefined })}
+                />
+                <DropdownFilter
+                  width={100}
+                  label='To'
+                  hideLabel
+                  data={followers}
+                  isLoading={filterLoading}
+                  onSelect={value => onFilterFollowers({ to: value?.id ? Number(value.id) : undefined })}
+                />
+              </div>
+            </div>
+          </div>
+          <div className='flex flex-wrap gap-3'>
+            <TextFilter
+              label='Address'
+              onChange={value => console.log(value)}
+            />
+            <TextFilter
+              label='Keywords'
+              onChange={value => console.log(value)}
+            />
+            <TextFilter
+              label='Hashtags'
+              onChange={value => console.log(value)}
+            />
+          </div>
+          <div className='flex flex-wrap gap-3'>
+            <DropdownFilter
+              label='Country'
+              data={countries}
+              isLoading={filterLoading}
+              onSelect={value => onFilterCountry(value?.id)}
+            />
+            <DropdownFilter
+              label='Industry'
+              data={industries}
+              isLoading={filterLoading}
+              onSelect={value => onFilterIndustry(value?.id)}
+            />
+            <DropdownFilter
+              label='Category'
+              data={categories}
+              isLoading={filterLoading}
+              onSelect={value => onFilterCategory(value?.id)}
+            />
+            <DropdownFilter
+              label='Engagement'
+              data={engagements}
+              isLoading={filterLoading}
+              onSelect={value => onFilterEngagement(value?.id)}
+            />
+            <DropdownFilter
+              label='Language'
+              data={languages}
+              isLoading={filterLoading}
+              onSelect={value => onFilterLanguage(value?.id)}
+            />
+            <DropdownFilter
+              label='Contact By'
+              data={contancts}
+              isLoading={filterLoading}
+              onSelect={value => onFilterContact(value?.id)}
+            />
+            <DropdownFilter
+              label='Page Rows'
+              data={pageRows}
+              isLoading={false}
+              onSelect={value => onFilterPageRows(Number(value?.value || 10))}
+            />
+          </div>
         </CardContent>
       </Card>
       <Card className='w-full'>
@@ -94,7 +142,9 @@ export default function CreatorPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className='w-full'>
-          {creatorsLoading || !creatorsResponse ? <Spinner /> : (
+          {creatorsLoading || !creatorsResponse ? (
+            <p className='text-sm'>Fetching creators...</p>
+          ) : (
             <DataTable data={creatorsResponse.data} columns={columns} />
           )}
           <div className="flex gap-2 items-center mt-4">
