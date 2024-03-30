@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { LoadingPage } from "@/components/loading";
 import Aos from "aos";
 import GuardLayout from './components/layouts/guard-layout';
-import DashboardPage from '@/pages/app/dashboard.page';
+import BillingPage from '@/pages/app/billing.page';
 import CreatorPage from '@/pages/app/creator.page';
 import CampaignPage from '@/pages/app/campaign.page';
 import "aos/dist/aos.css";
+import CampaignHistoryPage from './pages/app/campaign-history.page';
 
 const HomePage = lazy(() => import("@/pages/home.page"));
 const LoginPage = lazy(() => import("@/pages/login.page"));
@@ -34,9 +35,11 @@ export default function App() {
             <Route path="register" element={<RegisterPage />} />
           </Route>
           <Route path="/app" element={<GuardLayout />}>
-            <Route index element={<DashboardPage />} />
+            <Route index element={<Navigate to='billing' />} />
+            <Route path='billing' element={<BillingPage />} />
             <Route path='creator' element={<CreatorPage />} />
             <Route path='campaign' element={<CampaignPage />} />
+            <Route path='campaign-history' element={<CampaignHistoryPage />} />
           </Route>
           <Route path="*" element={<div>not found</div>} />
         </Routes>
