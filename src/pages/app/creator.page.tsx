@@ -29,18 +29,21 @@ export default function CreatorPage() {
   const { data: creatorsResponse, isLoading: creatorsLoading, isFetching } = useGetCreators(filter)
   const { data: filterResponse, isLoading: filterLoading } = useGetCreatorFilter()
 
-  const countries = filterResponse?.data.country || []
-  const industries = filterResponse?.data.industry || []
-  const categories = filterResponse?.data.category || []
-  const engagements = filterResponse?.data.engagementRate || []
-  const languages = filterResponse?.data.language || []
-  const contancts = filterResponse?.data.contactBy || []
-  const followers = filterResponse?.data.follower || []
+  const countries = filterResponse?.data?.country || []
+  const industries = filterResponse?.data?.industry || []
+  const categories = filterResponse?.data?.category || []
+  const engagements = filterResponse?.data?.engagementRate || []
+  const languages = filterResponse?.data?.language || []
+  const contancts = filterResponse?.data?.contactBy || []
+  const followers = filterResponse?.data?.follower || []
   const pagination = creatorsResponse?.pagination
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: getCreatorsKeys, fetchStatus: 'idle' })
   }, [queryClient, filter])
+
+  if (creatorsResponse?.error || filterResponse?.error)
+    return 'Something error, please refresh the page.'
 
   return (
     <>

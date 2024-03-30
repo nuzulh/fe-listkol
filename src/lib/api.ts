@@ -20,7 +20,6 @@ export default class API {
   public get = async <T>(path: string) => {
     const response = await fetch(baseUrl + path, {
       headers: this.applyAuth ? this.applyAuthHeader() : defaultHeader
-
     })
     const result = await response.json() as ApiResponse<T>
 

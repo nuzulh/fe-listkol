@@ -24,7 +24,7 @@ export default function LoginPage() {
               Don't have an account?
             </span>
             <Button size='sm' variant='link' asChild>
-              <Link to='/register'>
+              <Link to='/auth/register'>
                 register
               </Link>
             </Button>

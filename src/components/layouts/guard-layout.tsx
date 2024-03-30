@@ -3,6 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { LoadingPage } from '../loading'
 import { useToken } from '@/lib/hooks/token'
 import Sidebar from '../sidebar'
+import { toast } from 'sonner'
 
 type GuardState = 'loading' | 'loggedIn' | 'loggedOut'
 
@@ -14,6 +15,9 @@ export default function GuardLayout() {
 
   useEffect(() => {
     if (!userToken) {
+      const token = localStorage.getItem('token')
+      if (token) toast.error('Invalid token. Please login again.')
+      localStorage.removeItem('token')
       setGuardState('loggedOut')
       return
     }

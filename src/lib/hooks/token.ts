@@ -1,4 +1,7 @@
+import { useQuery } from '@tanstack/react-query'
 import { jwtDecode } from 'jwt-decode'
+import API from '../api'
+import { User } from '../models'
 
 export type UserToken = {
   id: string
@@ -11,11 +14,19 @@ export type UserToken = {
 
 export function useToken() {
   const token = localStorage.getItem('token')
-  if (!token) return null
+  const client = new API({ applyAuth: true })
+  const { data: response } = useQuery({
+    queryKey: ['GET', 'ME', 'AUTH'],
+    queryFn: () => client.get<User>('/auth/me'),
+    enabled: Boolean(token)
+  })
+
+  if (response?.error || !token) return null
 
   try {
     const decoded = jwtDecode(token) as UserToken
-    if (Date.now() > decoded.exp * 1000) return null
+    if ((Date.now() / 1000) > decoded.exp) return null
+
 
     return decoded
   } catch {
