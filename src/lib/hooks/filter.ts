@@ -15,6 +15,28 @@ export function useFilterCreator() {
     []
   )
 
+  const onFilterKeywords = useCallback(
+    (keywords: string | undefined) => setFilter(prev => {
+      if (!keywords) {
+        delete prev.keywords
+        return { ...prev }
+      }
+      return { ...prev, keywords }
+    }),
+    []
+  )
+
+  const onFilterHashtags = useCallback(
+    (hashtags: string | undefined) => setFilter(prev => {
+      if (!hashtags) {
+        delete prev.hashtags
+        return { ...prev }
+      }
+      return { ...prev, hashtags }
+    }),
+    []
+  )
+
   const onFilterCategory = useCallback(
     (category: string | undefined) => setFilter(prev => {
       if (!category) {
@@ -125,6 +147,8 @@ export function useFilterCreator() {
     onFilterContact,
     onFilterPageRows,
     onFilterFollowers,
+    onFilterKeywords,
+    onFilterHashtags,
     paginatePage
   }
 }

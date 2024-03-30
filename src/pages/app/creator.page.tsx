@@ -24,6 +24,9 @@ export default function CreatorPage() {
     onFilterContact,
     onFilterPageRows,
     onFilterFollowers,
+    onFilterAddress,
+    onFilterKeywords,
+    onFilterHashtags,
     paginatePage
   } = useFilterCreator()
   const { data: creatorsResponse, isLoading: creatorsLoading, isFetching } = useGetCreators(filter)
@@ -80,15 +83,15 @@ export default function CreatorPage() {
           <div className='flex flex-wrap gap-3'>
             <TextFilter
               label='Address'
-              onChange={value => console.log(value)}
+              onChange={value => onFilterAddress(value)}
             />
             <TextFilter
               label='Keywords'
-              onChange={value => console.log(value)}
+              onChange={value => onFilterKeywords(value)}
             />
             <TextFilter
               label='Hashtags'
-              onChange={value => console.log(value)}
+              onChange={value => onFilterHashtags(value)}
             />
           </div>
           <div className='flex flex-wrap gap-3'>
