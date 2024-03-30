@@ -29,9 +29,9 @@ export default function GuardLayout() {
     case 'loading': return <LoadingPage />
     case 'loggedOut': return urlPrefix === 'app' ? <Navigate to='/auth' /> : <Outlet />
     case 'loggedIn': return urlPrefix === 'auth' ? <Navigate to='/app' /> : (
-      <main className='min-h-screen w-full flex items-start gap-4 py-4'>
+      <main className='min-h-screen w-full flex items-start gap-4'>
         <Sidebar userToken={userToken} />
-        <div className='flex flex-col items-start justify-start gap-4 w-full pl-[18rem] pr-4'>
+        <div className='flex flex-col items-start justify-start gap-4 w-full px-4 md:pl-[18rem] pt-16 md:py-4'>
           <Outlet />
         </div>
       </main>

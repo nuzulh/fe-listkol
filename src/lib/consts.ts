@@ -1,5 +1,5 @@
 import { MenuItem, SidebarMenuItem } from "@/typings";
-import { Coins, Command, History, LayoutDashboard, UserSearch } from 'lucide-react';
+import { Coins, Command, History, UserSearch } from 'lucide-react';
 import { FilterData } from './models';
 
 export const baseUrl = "https://be-listkol.up.railway.app/api";

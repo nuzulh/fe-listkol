@@ -91,7 +91,7 @@ export const columns: ColumnDef<Creator>[] = [
   },
   {
     accessorKey: 'textExtras',
-    header: 'Hashtag',
+    header: 'Hashtags',
     cell: ({ row }) => row.original.textExtras === null
       ? 'N/A'
       : row.original.textExtras.slice(0, 3).filter(x => !!x).map(x => (

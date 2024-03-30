@@ -8,9 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { pageRows } from '@/lib/consts'
 import { useFilterCreator } from '@/lib/hooks'
+import { cn } from '@/lib/utils'
 import { getCreatorsKeys, useGetCreatorFilter, useGetCreators } from '@/services/creator/get-creator.service'
 import { useQueryClient } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { ChevronDown, ChevronUp, Filter, List } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export default function CreatorPage() {
   const queryClient = useQueryClient()
@@ -41,6 +43,8 @@ export default function CreatorPage() {
   const followers = filterResponse?.data?.follower || []
   const pagination = creatorsResponse?.pagination
 
+  const [isFilterOpen, setIsFilterOpen] = useState(true)
+
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: getCreatorsKeys, fetchStatus: 'idle' })
   }, [queryClient, filter])
@@ -52,11 +56,19 @@ export default function CreatorPage() {
     <>
       <Card className='w-full'>
         <CardHeader>
-          <CardTitle className='flex gap-2'>
-            <span>Creator Filter</span>
+          <CardTitle className='flex items-center justify-between'>
+            <span className='flex items-center gap-2'>
+              <Filter /> Creator Filter
+            </span>
+            <Button size='icon' variant='ghost' onClick={() => setIsFilterOpen(prev => !prev)}>
+              {isFilterOpen
+                ? <ChevronUp className='h-4 w-4' />
+                : <ChevronDown className='h-4 w-4' />
+              }
+            </Button>
           </CardTitle>
         </CardHeader>
-        <CardContent className='space-y-3'>
+        <CardContent className={cn('space-y-3', !isFilterOpen && 'hidden')}>
           <div className='flex flex-wrap gap-3'>
             <div>
               <Label>Followers</Label>
@@ -143,7 +155,9 @@ export default function CreatorPage() {
       <Card className='w-full'>
         <CardHeader>
           <CardTitle className='flex gap-2'>
-            <span>Creator List</span>
+            <span className='flex items-center gap-2'>
+              <List /> Creator List
+            </span>
             {isFetching && <Spinner />}
           </CardTitle>
         </CardHeader>
