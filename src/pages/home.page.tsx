@@ -20,6 +20,7 @@ import {
   User,
 } from "lucide-react";
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   const assets = useAssets();
@@ -63,8 +64,10 @@ export default function HomePage() {
           <div data-aos="zoom-in" data-aos-delay="400" className="w-full aspect-video bg-gray-200 flex items-center justify-center lg:w-3/4">
             <PlayCircle />
           </div>
-          <Button variant="shadow">
-            Dapetin List KOLnya di Sini!
+          <Button variant="shadow" asChild>
+            <Link to='/app'>
+              Dapetin List KOLnya di Sini!
+            </Link>
           </Button>
         </section>
         <section id="partner" className="bg-[#F8F6F2]">
