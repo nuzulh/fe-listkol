@@ -21,3 +21,18 @@ export type CampaignBody = {
   targetAudience?: string
   timeline?: Timeline
 }
+
+export type Campaign = {
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date | null
+  id: string
+  industry: string | null
+  category: string
+  country: string
+  objective: string
+  product: string
+  targetAudience: string
+  timeline: string
+  result: string
+}

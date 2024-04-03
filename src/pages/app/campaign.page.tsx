@@ -64,7 +64,7 @@ export default function CampaignPage() {
         return
       }
 
-      toast.success('Your feedback have been sent!')
+      toast.success('Your feedback has been sent!')
       setShowFeedback(false)
     },
     [feedback, mutateAsync, rating]
