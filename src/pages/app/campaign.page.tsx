@@ -244,7 +244,7 @@ export default function CampaignPage() {
             <Label>Feedback description:</Label>
             <Textarea placeholder='Input your feedback' onChange={e => setFeedback(e.target.value)} />
           </div>
-          <Button variant='shadow' onClick={onSendFeedback}>
+          <Button variant='shadow' disabled={isPending} onClick={onSendFeedback}>
             {isPending ? (
               <Spinner className='h-4 w-4 mr-2' />
             ) : (
