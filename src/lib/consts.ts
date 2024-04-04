@@ -29,25 +29,25 @@ export const menus: MenuItem[] = [
 
 export const sidebarMenus: SidebarMenuItem[] = [
   {
-    title: 'Billing',
-    link: '/app/billing',
-    icon: Coins
-  },
-  {
     title: 'Creator',
     link: '/app/creator',
     icon: UserSearch
   },
   {
-    title: 'Campaign',
+    title: 'Campaign Ideas',
     link: '/app/campaign',
     icon: Command
   },
   {
-    title: 'Campaign History',
+    title: 'Ideas History',
     link: '/app/campaign-history',
     icon: History
-  }
+  },
+  {
+    title: 'Billing',
+    link: '/app/billing',
+    icon: Coins
+  },
 ]
 
 export const pageRows: FilterData[] = [

@@ -3,9 +3,9 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import VerifiedTtIcon from '@/components/verified-tt-icon'
 import { Creator } from '@/lib/models'
-import { countParser } from '@/lib/utils'
+import { numberParser } from '@/lib/utils'
 import { ColumnDef } from "@tanstack/react-table"
-import { ExternalLink, User } from 'lucide-react'
+import { User } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export const columns: ColumnDef<Creator>[] = [
@@ -48,32 +48,37 @@ export const columns: ColumnDef<Creator>[] = [
     header: "Country",
     cell: ({ row }) => row.original.country?.value || 'N/A'
   },
-  {
-    accessorKey: 'bioLink',
-    header: 'Link',
-    cell: ({ row }) => {
-      const bioLink = row.original.bioLink
+  // {
+  //   accessorKey: 'bioLink',
+  //   header: 'Link',
+  //   cell: ({ row }) => {
+  //     const bioLink = row.original.bioLink
 
-      if (!bioLink) return 'N/A'
+  //     if (!bioLink) return 'N/A'
 
-      return (
-        <Button size='icon' variant='outline' asChild>
-          <Link to={bioLink.startsWith('http') ? bioLink : `https://${bioLink}`} target='_blank'>
-            <ExternalLink className='h-4 w-4' />
-          </Link>
-        </Button>
-      )
-    }
-  },
+  //     return (
+  //       <Button size='icon' variant='outline' asChild>
+  //         <Link to={bioLink.startsWith('http') ? bioLink : `https://${bioLink}`} target='_blank'>
+  //           <ExternalLink className='h-4 w-4' />
+  //         </Link>
+  //       </Button>
+  //     )
+  //   }
+  // },
   {
     accessorKey: 'followerCount',
     header: "Followers",
-    cell: ({ row }) => countParser(Number(row.original.followerCount)),
+    cell: ({ row }) => numberParser(Number(row.original.followerCount)),
   },
   {
     accessorKey: 'videoCount',
     header: "Total Videos",
     cell: ({ row }) => row.original.videoCount || 'N/A'
+  },
+  {
+    accessorKey: 'avgView',
+    header: 'Average Views',
+    cell: ({ row }) => numberParser(Number(row.original.avgView)),
   },
   {
     accessorKey: 'engagementRate',
@@ -89,13 +94,13 @@ export const columns: ColumnDef<Creator>[] = [
         <Badge key={x} className='m-1' variant='secondary'>{x}</Badge>
       ))
   },
-  {
-    accessorKey: 'textExtras',
-    header: 'Hashtags',
-    cell: ({ row }) => row.original.textExtras === null
-      ? 'N/A'
-      : row.original.textExtras.slice(0, 3).filter(x => !!x).map(x => (
-        <Badge key={x} className='m-1' variant='secondary'>#{x}</Badge>
-      ))
-  }
+  // {
+  //   accessorKey: 'textExtras',
+  //   header: 'Hashtags',
+  //   cell: ({ row }) => row.original.textExtras === null
+  //     ? 'N/A'
+  //     : row.original.textExtras.slice(0, 3).filter(x => !!x).map(x => (
+  //       <Badge key={x} className='m-1' variant='secondary'>#{x}</Badge>
+  //     ))
+  // }
 ]

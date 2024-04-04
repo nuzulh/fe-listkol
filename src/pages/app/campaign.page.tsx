@@ -74,6 +74,7 @@ export default function CampaignPage() {
 
   const onGenerate = useCallback(
     async () => {
+      setResultText('')
       setCampaignStep('loading')
       const token = localStorage.getItem('token')
       const response = await fetch(`${baseUrl}/campaign`, {
@@ -110,7 +111,7 @@ export default function CampaignPage() {
             setShowFeedback(true)
         }
         else
-          setResultText(prev => prev + decodedChunk.replace('\n', '<br />'))
+          setResultText(prev => prev + decodedChunk.split('\n').join('<br />'))
       }
     },
     [abortController.signal, body]
@@ -162,19 +163,29 @@ export default function CampaignPage() {
               isLoading={filterLoading}
               onSelect={value => setBody(prev => ({ ...prev, timeline: value?.id as any }))}
             />
+            <div>
+              <Label>Influencer Quantity <span className='text-xs'>(optional)</span> :</Label>
+              <DropdownFilter
+                label='Influencer Quantity'
+                hideLabel
+                data={Array.from({ length: 10 }).map((_, i) => ({ id: i + 1 + "", value: i + 1 + "" }))}
+                isLoading={filterLoading}
+                onSelect={value => setBody(prev => ({ ...prev, influencerCount: value?.id as any }))}
+              />
+            </div>
           </div>
           <div className='flex flex-wrap gap-3'>
             <div className='w-full'>
               <Label>Product:</Label>
               <Textarea
-                placeholder='Input your product detail (ex: Healthy milk for baby)'
+                placeholder='Desribe your product in detail (min 50 characters)'
                 onChange={e => setBody(prev => ({ ...prev, product: e.target.value }))}
               />
             </div>
             <div className='w-full'>
               <Label>Target Audience:</Label>
               <Input
-                placeholder='Input target audience (ex: mommy)'
+                placeholder='Desribe your target audience (ex: mommy)'
                 onChange={e => setBody(prev => ({ ...prev, targetAudience: e.target.value }))}
               />
             </div>

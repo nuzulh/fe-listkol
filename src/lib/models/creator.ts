@@ -19,6 +19,7 @@ export type Creator = {
   followerCount: string | null
   likeCount: string | null
   videoCount: string | null
+  avgView: string | null
   viewCount: string | null
   ttSeller: boolean | null
   shareCount: string | null

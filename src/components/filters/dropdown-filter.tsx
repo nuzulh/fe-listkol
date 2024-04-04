@@ -1,7 +1,6 @@
-import * as React from "react"
 import { Check, ChevronsUpDown, X } from "lucide-react"
+import * as React from "react"
 
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -17,6 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { FilterData } from '@/lib/models'
+import { cn } from "@/lib/utils"
 import { Spinner } from '../loading'
 
 export function DropdownFilter({
@@ -25,7 +25,8 @@ export function DropdownFilter({
   data,
   isLoading,
   width = 200,
-  onSelect
+  onSelect,
+  showClearButton = true
 }: {
   label: string
   hideLabel?: boolean
@@ -33,6 +34,7 @@ export function DropdownFilter({
   isLoading: boolean
   width?: number
   onSelect: (selected?: FilterData) => void
+  showClearButton?: boolean
 }) {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState<FilterData | undefined>()
@@ -68,14 +70,14 @@ export function DropdownFilter({
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <Button
+          {showClearButton && (<Button
             size='icon'
             variant='outline'
             className='-ml-1'
             onClick={() => setSelected(undefined)}
           >
             <X className='h-4 w-4' />
-          </Button>
+          </Button>)}
         </div>
       </div>
       <PopoverContent className={`w-[200px] p-0`}>

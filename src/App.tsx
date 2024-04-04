@@ -1,12 +1,12 @@
-import { Suspense, lazy, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { LoadingPage } from "@/components/loading";
-import Aos from "aos";
-import GuardLayout from './components/layouts/guard-layout';
 import BillingPage from '@/pages/app/billing.page';
-import CreatorPage from '@/pages/app/creator.page';
 import CampaignPage from '@/pages/app/campaign.page';
+import CreatorPage from '@/pages/app/creator.page';
+import Aos from "aos";
 import "aos/dist/aos.css";
+import { Suspense, lazy, useEffect } from "react";
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import GuardLayout from './components/layouts/guard-layout';
 import CampaignHistoryPage from './pages/app/campaign-history.page';
 
 const HomePage = lazy(() => import("@/pages/home.page"));
@@ -35,11 +35,11 @@ export default function App() {
             <Route path="register" element={<RegisterPage />} />
           </Route>
           <Route path="/app" element={<GuardLayout />}>
-            <Route index element={<Navigate to='billing' />} />
-            <Route path='billing' element={<BillingPage />} />
+            <Route index element={<Navigate to='creator' />} />
             <Route path='creator' element={<CreatorPage />} />
             <Route path='campaign' element={<CampaignPage />} />
             <Route path='campaign-history' element={<CampaignHistoryPage />} />
+            <Route path='billing' element={<BillingPage />} />
           </Route>
           <Route path="*" element={<div>not found</div>} />
         </Routes>

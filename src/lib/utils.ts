@@ -1,4 +1,4 @@
-import { type ClassValue, clsx } from "clsx"
+import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -14,4 +14,10 @@ export function countParser(n: number | null) {
   if (n > 10000000 && n < 100000000) return '>10M'
   if (n > 100000000) return '>100M'
   return n
+}
+
+export function numberParser(n: number | null) {
+  if (!n) return 'N/A'
+  if (isNaN(n)) return 'N/A'
+  return new Intl.NumberFormat().format(n)
 }
