@@ -20,7 +20,6 @@ export default function CreatorPage() {
     filter,
     onFilterCategory,
     onFilterEngagement,
-    onFilterLanguage,
     onFilterCountry,
     onFilterIndustry,
     onFilterContact,
@@ -38,7 +37,6 @@ export default function CreatorPage() {
   const industries = filterResponse?.data?.industry || []
   const categories = filterResponse?.data?.category || []
   const engagements = filterResponse?.data?.engagementRate || []
-  const languages = filterResponse?.data?.language || []
   const contancts = filterResponse?.data?.contactBy || []
   const followers = filterResponse?.data?.follower || []
   const pagination = creatorsResponse?.pagination
@@ -94,7 +92,7 @@ export default function CreatorPage() {
           </div>
           <div className='flex flex-wrap gap-3'>
             <TextFilter
-              label='Address'
+              label='City'
               onChange={value => onFilterAddress(value)}
             />
             <TextFilter
@@ -103,7 +101,12 @@ export default function CreatorPage() {
             />
             <TextFilter
               label='Hashtags'
-              onChange={value => onFilterHashtags(value)}
+              onChange={value => {
+                if (value) {
+                  if (value.includes('#')) value = value.replace(/#/g, '')
+                }
+                onFilterHashtags(value)
+              }}
             />
           </div>
           <div className='flex flex-wrap gap-3'>
@@ -131,24 +134,19 @@ export default function CreatorPage() {
               isLoading={filterLoading}
               onSelect={value => onFilterEngagement(value?.id)}
             />
-            <DropdownFilter
+            {/* <DropdownFilter
               label='Language'
               data={languages}
               isLoading={filterLoading}
               onSelect={value => onFilterLanguage(value?.id)}
-            />
+            /> */}
             <DropdownFilter
               label='Contact By'
               data={contancts}
               isLoading={filterLoading}
               onSelect={value => onFilterContact(value?.id)}
             />
-            <DropdownFilter
-              label='Page Rows'
-              data={pageRows}
-              isLoading={false}
-              onSelect={value => onFilterPageRows(Number(value?.value || 10))}
-            />
+            
           </div>
         </CardContent>
       </Card>
@@ -167,28 +165,40 @@ export default function CreatorPage() {
           ) : (
             <DataTable data={creatorsResponse.data} columns={columns} />
           )}
-          <div className="flex gap-2 items-center mt-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => paginatePage('prev')}
-              disabled={Number(filter.pagination?.page) === 1 || isFetching}
-            >
-              Previous
-            </Button>
-            {isFetching ? <Spinner className='h-4 w-4' /> : (
-              <span className='text-sm'>
-                {pagination?.page} / {pagination?.totalPage}
-              </span>
-            )}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => paginatePage('next')}
-              disabled={Number(filter.pagination?.page) >= Number(pagination?.totalPage) || isFetching}
-            >
-              Next
-            </Button>
+          <div className='flex justify-between'>
+            <div className="flex gap-2 items-center mt-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => paginatePage('prev')}
+                disabled={Number(filter.pagination?.page) === 1 || isFetching}
+              >
+                Previous
+              </Button>
+              {isFetching ? <Spinner className='h-4 w-4' /> : (
+                <span className='text-sm'>
+                  {pagination?.page} / {pagination?.totalPage}
+                </span>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => paginatePage('next')}
+                disabled={Number(filter.pagination?.page) >= Number(pagination?.totalPage) || isFetching}
+              >
+                Next
+              </Button>
+            </div>
+            <div className='flex items-end'>
+              <DropdownFilter
+                label='Page Rows'
+                data={pageRows}
+                isLoading={false}
+                onSelect={value => onFilterPageRows(Number(value?.value || 10))}
+                showClearButton={false}
+                hideLabel
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

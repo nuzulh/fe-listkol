@@ -20,6 +20,7 @@ export type CampaignBody = {
   product?: string
   targetAudience?: string
   timeline?: Timeline
+  influencerCount?: number
 }
 
 export type Campaign = {
