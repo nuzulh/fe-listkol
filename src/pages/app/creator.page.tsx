@@ -11,8 +11,8 @@ import { useFilterCreator } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
 import { getCreatorsKeys, useGetCreatorFilter, useGetCreators } from '@/services/creator/get-creator.service'
 import { useQueryClient } from '@tanstack/react-query'
-import { ChevronDown, ChevronUp, Filter, List } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { ChevronDown, ChevronUp, Filter, List, UserSearch } from 'lucide-react'
+import { useCallback, useState } from 'react'
 
 export default function CreatorPage() {
   const queryClient = useQueryClient()
@@ -42,10 +42,14 @@ export default function CreatorPage() {
   const pagination = creatorsResponse?.pagination
 
   const [isFilterOpen, setIsFilterOpen] = useState(true)
+  const onFilterAction = useCallback(
+    () => queryClient.invalidateQueries({ queryKey: getCreatorsKeys, fetchStatus: 'idle' }),
+    [queryClient]
+  )
 
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: getCreatorsKeys, fetchStatus: 'idle' })
-  }, [queryClient, filter])
+  // useEffect(() => {
+  //   queryClient.invalidateQueries({ queryKey: getCreatorsKeys, fetchStatus: 'idle' })
+  // }, [queryClient, filter])
 
   if (creatorsResponse?.error || filterResponse?.error)
     return 'Something error, please refresh the page.'
@@ -66,7 +70,7 @@ export default function CreatorPage() {
             </Button>
           </CardTitle>
         </CardHeader>
-        <CardContent className={cn('space-y-3', !isFilterOpen && 'hidden')}>
+        <CardContent className={cn('flex flex-col gap-3', !isFilterOpen && 'hidden')}>
           <div className='flex flex-wrap gap-3'>
             <div>
               <Label>Followers</Label>
@@ -94,10 +98,12 @@ export default function CreatorPage() {
             <TextFilter
               label='City'
               onChange={value => onFilterAddress(value)}
+              hideAction
             />
             <TextFilter
               label='Keywords'
               onChange={value => onFilterKeywords(value)}
+              hideAction
             />
             <TextFilter
               label='Hashtags'
@@ -107,6 +113,7 @@ export default function CreatorPage() {
                 }
                 onFilterHashtags(value)
               }}
+              hideAction
             />
           </div>
           <div className='flex flex-wrap gap-3'>
@@ -146,8 +153,20 @@ export default function CreatorPage() {
               isLoading={filterLoading}
               onSelect={value => onFilterContact(value?.id)}
             />
-            
           </div>
+          <Button
+            disabled={isFetching}
+            className='self-end mt-4'
+            variant='shadow'
+            onClick={onFilterAction}
+          >
+            {isFetching ? (
+              <Spinner className='h-4 w-4 mr-2' />
+            ) : (
+              <UserSearch className='h-4 w-4 mr-2' />
+            )}
+            Search relevant creators
+          </Button>
         </CardContent>
       </Card>
       <Card className='w-full'>
