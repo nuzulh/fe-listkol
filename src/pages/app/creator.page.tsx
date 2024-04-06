@@ -186,11 +186,7 @@ export default function CreatorPage() {
             variant='shadow'
             onClick={onFilterAction}
           >
-            {isFetching ? (
-              <Spinner className='h-4 w-4 mr-2' />
-            ) : (
-              <UserSearch className='h-4 w-4 mr-2' />
-            )}
+            <UserSearch className='h-4 w-4 mr-2' />
             Search relevant creators
           </Button>
         </CardContent>

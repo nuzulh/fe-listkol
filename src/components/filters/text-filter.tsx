@@ -8,11 +8,13 @@ import { cn } from '@/lib/utils';
 export function TextFilter({
   label,
   onChange,
-  hideAction = false
+  hideAction = false,
+  placeholder
 }: {
-  label: string,
-  onChange: (value: string | undefined) => void,
+  label: string | React.ReactNode
+  onChange: (value: string | undefined) => void
   hideAction?: boolean
+  placeholder?: string
 }) {
   const [value, setValue] = useState<string>('')
   // const onClear = () => {
@@ -27,11 +29,11 @@ export function TextFilter({
 
   return (
     <div>
-      <Label>{label}:</Label>
+      {typeof label === 'string' ? <Label>{label}:</Label> : label}
       <div className='flex items-center'>
         <Input
           id={`input${label}`}
-          placeholder={`Input ${label}...`}
+          placeholder={placeholder ? placeholder : `Input ${label}...`}
           className={cn(
             'w-[200px] focus-visible:ring-transparent',
             hideAction && 'w-[236px]'

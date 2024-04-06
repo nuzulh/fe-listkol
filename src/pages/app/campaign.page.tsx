@@ -1,4 +1,5 @@
 import { DropdownFilter } from '@/components/filters/dropdown-filter';
+import { TextFilter } from '@/components/filters/text-filter';
 import { Spinner } from '@/components/loading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -163,14 +164,20 @@ export default function CampaignPage() {
               onSelect={value => setBody(prev => ({ ...prev, timeline: value?.id as any }))}
             />
             <div>
-              <Label>Influencer Quantity <span className='text-xs'>(optional)</span> :</Label>
-              <DropdownFilter
+              {/* <Label>Influencer Quantity <span className='text-xs'>(optional)</span> :</Label> */}
+              <TextFilter
+                label={<Label>Influencer Quantity <span className='text-xs'>(optional)</span> :</Label>}
+                onChange={value => setBody(prev => ({ ...prev, influencerCount: value as any }))}
+                placeholder='Input Influencer Quantity...'
+                hideAction
+              />
+              {/* <DropdownFilter
                 label='Influencer Quantity'
                 hideLabel
                 data={Array.from({ length: 10 }).map((_, i) => ({ id: i + 1 + "", value: i + 1 + "" }))}
                 isLoading={filterLoading}
                 onSelect={value => setBody(prev => ({ ...prev, influencerCount: value?.id as any }))}
-              />
+              /> */}
             </div>
           </div>
           <div className='flex flex-wrap gap-3'>
