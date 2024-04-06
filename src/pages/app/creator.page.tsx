@@ -4,17 +4,19 @@ import { Spinner } from '@/components/loading'
 import { columns } from '@/components/tables/creator/columns'
 import { DataTable } from '@/components/tables/data-table'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { pageRows } from '@/lib/consts'
-import { useFilterCreator } from '@/lib/hooks'
-import { cn } from '@/lib/utils'
+import { useAssets, useFilterCreator } from '@/lib/hooks'
+import { cn, numberParser } from '@/lib/utils'
 import { getCreatorsKeys, useGetCreatorFilter, useGetCreators } from '@/services/creator/get-creator.service'
 import { useQueryClient } from '@tanstack/react-query'
 import { ChevronDown, ChevronUp, Filter, List, UserSearch } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { downloadExcel } from 'react-export-table-to-excel'
 
 export default function CreatorPage() {
+  const assets = useAssets()
   const queryClient = useQueryClient()
   const {
     filter,
@@ -47,6 +49,29 @@ export default function CreatorPage() {
     [queryClient]
   )
 
+  const dataToExport = useMemo(
+    () => creatorsResponse?.data.map(item => ({
+      uniqueId: `@${item.uniqueId}`,
+      name: item.nickName || 'N/A',
+      email: item.email || 'N/A',
+      country: item.country?.label || 'N/A',
+      followers: numberParser(Number(item.followerCount)),
+      videoCount: numberParser(Number(item.videoCount)),
+      avgViews: numberParser(Number(item.avgView)),
+      engagementRate: numberParser(Number(item.engagementRate)),
+      potentialCagegories: item.potentialCategories?.filter(x => !!x).slice(0, 3).map(x => `#${x}`).join(', '),
+    })) || [],
+    [creatorsResponse]
+  )
+  const onExport = () => downloadExcel({
+    fileName: 'testing_export',
+    sheet: 'testing_sheet',
+    tablePayload: {
+      header: ['Username', 'Name', 'Email', 'Country', 'Followers', 'Total Videos', 'Average Views', 'Engagement Rate', 'Potential Categories'],
+      body: dataToExport as any
+    }
+  })
+
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: getCreatorsKeys, fetchStatus: 'idle' })
   }, [queryClient, filter.pagination])
@@ -69,6 +94,7 @@ export default function CreatorPage() {
               }
             </Button>
           </CardTitle>
+          <CardDescription>These fields are optional</CardDescription>
         </CardHeader>
         <CardContent className={cn('flex flex-col gap-3', !isFilterOpen && 'hidden')}>
           <div className='flex flex-wrap gap-3'>
@@ -171,11 +197,19 @@ export default function CreatorPage() {
       </Card>
       <Card className='w-full'>
         <CardHeader>
-          <CardTitle className='flex gap-2'>
+          <CardTitle className='flex items-center justify-between'>
             <span className='flex items-center gap-2'>
               <List /> Creator List
+              {isFetching && <Spinner />}
             </span>
-            {isFetching && <Spinner />}
+            <Button disabled={isFetching} variant='outline' onClick={onExport}>
+              <img
+                src={assets.getImage('excel')}
+                className='h-4 w-4 mr-2'
+                alt='excel'
+              />
+              Export XLSX
+            </Button>
           </CardTitle>
         </CardHeader>
         <CardContent className='w-full'>

@@ -13,6 +13,7 @@ const assets: Assets = {
     "i-5": require("@/assets/images/i-5.svg"),
     "i-6": require("@/assets/images/i-6.svg"),
     "i-7": require("@/assets/images/i-7.svg"),
+    "excel": require("@/assets/images/excel.svg"),
   },
 };
 

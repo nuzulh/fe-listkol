@@ -10,6 +10,7 @@ export type ImageAssets = {
   "i-5": string;
   "i-6": string;
   "i-7": string;
+  "excel": string;
 };
 
 export type Assets = {

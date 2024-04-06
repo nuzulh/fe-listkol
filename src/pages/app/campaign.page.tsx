@@ -3,7 +3,6 @@ import { Spinner } from '@/components/loading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import API from '@/lib/api';
@@ -178,14 +177,14 @@ export default function CampaignPage() {
             <div className='w-full'>
               <Label>Product:</Label>
               <Textarea
-                placeholder='Desribe your product in detail (min 50 characters)'
+                placeholder='Desribe your product detail (min 50 characters)'
                 onChange={e => setBody(prev => ({ ...prev, product: e.target.value }))}
               />
             </div>
             <div className='w-full'>
               <Label>Target Audience:</Label>
-              <Input
-                placeholder='Desribe your target audience (ex: mommy)'
+              <Textarea
+                placeholder='Desribe your target audience (min 50 characters)'
                 onChange={e => setBody(prev => ({ ...prev, targetAudience: e.target.value }))}
               />
             </div>
@@ -217,7 +216,9 @@ export default function CampaignPage() {
           <p
             className='text-sm'
             dangerouslySetInnerHTML={{
-              __html: resultText === '' ? STEPS[campaignStep] : resultText
+              __html: resultText === ''
+                ? STEPS[campaignStep] === STEPS.done ? '...' : STEPS[campaignStep]
+                : resultText
             }}
           />
         </CardContent>
