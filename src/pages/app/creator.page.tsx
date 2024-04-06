@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils'
 import { getCreatorsKeys, useGetCreatorFilter, useGetCreators } from '@/services/creator/get-creator.service'
 import { useQueryClient } from '@tanstack/react-query'
 import { ChevronDown, ChevronUp, Filter, List, UserSearch } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export default function CreatorPage() {
   const queryClient = useQueryClient()
@@ -47,9 +47,9 @@ export default function CreatorPage() {
     [queryClient]
   )
 
-  // useEffect(() => {
-  //   queryClient.invalidateQueries({ queryKey: getCreatorsKeys, fetchStatus: 'idle' })
-  // }, [queryClient, filter])
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: getCreatorsKeys, fetchStatus: 'idle' })
+  }, [queryClient, filter.pagination])
 
   if (creatorsResponse?.error || filterResponse?.error)
     return 'Something error, please refresh the page.'
