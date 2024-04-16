@@ -8,6 +8,7 @@ import { Suspense, lazy, useEffect } from "react";
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import GuardLayout from './components/layouts/guard-layout';
 import CampaignHistoryPage from './pages/app/campaign-history.page';
+import AnalysisPage from './pages/app/analysis.page';
 
 const HomePage = lazy(() => import("@/pages/home.page"));
 const LoginPage = lazy(() => import("@/pages/login.page"));
@@ -39,6 +40,7 @@ export default function App() {
             <Route path='creator' element={<CreatorPage />} />
             <Route path='campaign' element={<CampaignPage />} />
             <Route path='campaign-history' element={<CampaignHistoryPage />} />
+            <Route path='analysis' element={<AnalysisPage />} />
             <Route path='billing' element={<BillingPage />} />
           </Route>
           <Route path="*" element={<div>not found</div>} />

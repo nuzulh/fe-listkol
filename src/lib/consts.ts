@@ -1,5 +1,5 @@
 import { MenuItem, SidebarMenuItem } from "@/typings";
-import { Coins, Command, History, UserSearch } from 'lucide-react';
+import { Coins, Command, History, LampDesk, UserSearch } from 'lucide-react';
 import { FilterData } from './models';
 
 export const baseUrl = "https://be-listkol.up.railway.app/api";
@@ -42,6 +42,11 @@ export const sidebarMenus: SidebarMenuItem[] = [
     title: 'Ideas History',
     link: '/app/campaign-history',
     icon: History
+  },
+  {
+    title: 'Analysis',
+    link: '/app/analysis',
+    icon: LampDesk
   },
   {
     title: 'Billing',

@@ -90,8 +90,7 @@ export default function CreatorPage() {
             <Button size='icon' variant='ghost' onClick={() => setIsFilterOpen(prev => !prev)}>
               {isFilterOpen
                 ? <ChevronUp className='h-4 w-4' />
-                : <ChevronDown className='h-4 w-4' />
-              }
+                : <ChevronDown className='h-4 w-4' />}
             </Button>
           </CardTitle>
           <CardDescription>These fields are optional</CardDescription>
