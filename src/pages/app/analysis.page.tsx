@@ -1,17 +1,17 @@
 import { Spinner } from '@/components/loading'
-import { Badge } from '@/components/ui/badge'
+import { columns } from '@/components/tables/analysis/columns'
+import { DataTable } from '@/components/tables/data-table'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import API from '@/lib/api'
 import { AnalysisResult } from '@/lib/models'
-import { numberParser } from '@/lib/utils'
 import { useGetAnalysis } from '@/services/analysis/get-analysis.service'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ExternalLink, Eye, Heart, LampDesk, MessageCircle, Package, ScanSearch, Search, Send } from 'lucide-react'
+import { LampDesk, ScanSearch, Search } from 'lucide-react'
 import { useCallback, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 
 export default function AnalysisPage() {
@@ -83,6 +83,7 @@ export default function AnalysisPage() {
             response?.data.map(item => (
               <Card key={item.id}>
                 <CardHeader>
+                  <CardTitle className='text-base'>{item.campaignName}</CardTitle>
                   <CardDescription className='flex flex-col gap-2 items-start'>
                     Generated at{' '}
                     {Intl.DateTimeFormat('id-ID', {
@@ -92,57 +93,22 @@ export default function AnalysisPage() {
                       hour: '2-digit',
                       minute: '2-digit'
                     }).format(new Date(item.createdAt))}
-                    <span className='flex items-center gap-1'>
-                      {item.videoUrl}
-                      <Button variant='ghost' size='icon' asChild>
-                        <Link to={item.videoUrl} target='_blank'>
-                          <ExternalLink className='h-4 w-4' />
-                        </Link>
-                      </Button>
-                    </span>
                   </CardDescription>
                 </CardHeader>
                 <CardContent className='flex items-center flex-wrap gap-3'>
-                  <Badge
-                    variant='outline'
-                    className='flex flex-col items-center justify-center gap-1 rounded-lg w-full md:w-fit md:min-w-32 py-2 hover:scale-105'
-                  >
-                    <Eye className='text-blue-500' />
-                    <p>{numberParser(item.viewCount)}</p>
-                    <p className='font-normal'>Views</p>
-                  </Badge>
-                  <Badge
-                    variant='outline'
-                    className='flex flex-col items-center justify-center gap-1 rounded-lg w-full md:w-fit md:min-w-32 py-2 hover:scale-105'
-                  >
-                    <Heart className='text-red-500' />
-                    <p>{numberParser(item.likeCount)}</p>
-                    <p className='font-normal'>Likes</p>
-                  </Badge>
-                  <Badge
-                    variant='outline'
-                    className='flex flex-col items-center justify-center gap-1 rounded-lg w-full md:w-fit md:min-w-32 py-2 hover:scale-105'
-                  >
-                    <MessageCircle className='text-secondary' />
-                    <p>{numberParser(item.commentCount)}</p>
-                    <p className='font-normal'>Comments</p>
-                  </Badge>
-                  <Badge
-                    variant='outline'
-                    className='flex flex-col items-center justify-center gap-1 rounded-lg w-full md:w-fit md:min-w-32 py-2 hover:scale-105'
-                  >
-                    <Send className='text-green-500' />
-                    <p>{numberParser(item.shareCount)}</p>
-                    <p className='font-normal'>Shares</p>
-                  </Badge>
-                  <Badge
-                    variant='outline'
-                    className='flex flex-col items-center justify-center gap-1 rounded-lg w-full md:w-fit md:min-w-32 py-2 hover:scale-105'
-                  >
-                    <Package className='text-stone-500' />
-                    <p>{numberParser(item.collectCount)}</p>
-                    <p className='font-normal'>Collects</p>
-                  </Badge>
+                  <Accordion type="single" collapsible className='w-full'>
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>Result</AccordionTrigger>
+                      <AccordionContent className='flex flex-col-reverse md:flex-row items-end md:items-start gap-3'>
+                        <div className='grow w-full'>
+                          <DataTable
+                            columns={columns}
+                            data={item.details}
+                          />
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                 </CardContent>
               </Card>
             ))

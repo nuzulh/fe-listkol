@@ -2,7 +2,7 @@ import { MenuItem, SidebarMenuItem } from "@/typings";
 import { Coins, Command, History, LampDesk, UserSearch } from 'lucide-react';
 import { FilterData } from './models';
 
-export const baseUrl = "https://be-listkol.up.railway.app/api";
+export const baseUrl = "http://152.42.163.203/api";
 
 export const menus: MenuItem[] = [
   {

@@ -1,15 +1,23 @@
-export type Analysis = {
+export type OldAnalysis = {
   likeCount: number
   commentCount: number
   shareCount: number
   viewCount: number
   collectCount: number
+  engagementRate: number
   createdAt: Date
 }
 
-export type AnalysisResult = Analysis & {
+export type Analysis = Omit<OldAnalysis, 'createdAt'> & {
+  creatorName: string
+  cost: number
+  oldData: OldAnalysis[]
+}
+
+export type AnalysisResult = {
   id: string
-  videoUrl: string
-  oldData: Analysis[]
-  updatedAt: Date
+  campaignName: string
+  createdAt: string
+  updatedAt: string
+  details: Analysis[]
 }
